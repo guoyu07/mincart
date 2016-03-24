@@ -1,68 +1,169 @@
 <?php
-class Document {
-	private $title;
-	private $description;
-	private $keywords;
-	private $links = array();
-	private $styles = array();
-	private $scripts = array();
 
-	public function setTitle($title) {
-		$this->title = $title;
-	}
+/**
+ * HTML页面文档类
+ */
+class Document
+{
 
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     *
+     * @var string 页面标题
+     */
+    private $title;
+    
+    /**
+     *
+     * @var string 页面描述
+     */
+    private $description;
+    
+    /**
+     *
+     * @var string 页面关键词
+     */
+    private $keywords;
+    
+    /**
+     *
+     * @var array 资源链接
+     */
+    private $links = [];
+    
+    /**
+     *
+     * @var array 样式文件
+     */
+    private $styles = [];
+    
+    /**
+     *
+     * @var array 脚本文件
+     */
+    private $scripts = [];
 
-	public function setDescription($description) {
-		$this->description = $description;
-	}
+    /**
+     * 
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
-	public function getDescription() {
-		return $this->description;
-	}
+    /**
+     * 
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	public function setKeywords($keywords) {
-		$this->keywords = $keywords;
-	}
+    /**
+     * 
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 
-	public function getKeywords() {
-		return $this->keywords;
-	}
+    /**
+     * 
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
-	public function addLink($href, $rel) {
-		$this->links[$href] = array(
-			'href' => $href,
-			'rel'  => $rel
-		);
-	}
+    /**
+     * 
+     * @param string $keywords
+     */
+    public function setKeywords($keywords)
+    {
+        $this->keywords = $keywords;
+    }
 
-	public function getLinks() {
-		return $this->links;
-	}
+    /**
+     * 
+     * @return string
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
 
-	public function addStyle($href, $rel = 'stylesheet', $media = 'screen') {
-		$this->styles[$href] = array(
-			'href'  => $href,
-			'rel'   => $rel,
-			'media' => $media
-		);
-	}
+    /**
+     * 
+     * @param string $href
+     * @param string $rel
+     */
+    public function addLink($href, $rel)
+    {
+        $this->links[$href] = [
+            'href' => $href,
+            'rel' => $rel
+        ];
+    }
 
-	public function getStyles() {
-		return $this->styles;
-	}
+    /**
+     * 
+     * @return array
+     */
+    public function getLinks()
+    {
+        return $this->links;
+    }
 
-	public function addScript($href, $postion = 'header') {
-		$this->scripts[$postion][$href] = $href;
-	}
+    /**
+     * 
+     * @param string $href
+     * @param string $rel
+     * @param string $media
+     */
+    public function addStyle($href, $rel = 'stylesheet', $media = 'screen')
+    {
+        $this->styles[$href] = [
+            'href' => $href,
+            'rel' => $rel,
+            'media' => $media
+        ];
+    }
 
-	public function getScripts($postion = 'header') {
-		if (isset($this->scripts[$postion])) {
-			return $this->scripts[$postion];
-		} else {
-			return array();
-		}
-	}
+    /**
+     * 
+     * @return array
+     */
+    public function getStyles()
+    {
+        return $this->styles;
+    }
+
+    /**
+     * 
+     * @param string $href
+     * @param string $postion
+     */
+    public function addScript($href, $postion = 'header')
+    {
+        $this->scripts[$postion][$href] = $href;
+    }
+
+    /**
+     * 
+     * @param string $postion
+     * @return array
+     */
+    public function getScripts($postion = 'header')
+    {
+        if (isset($this->scripts[$postion])) {
+            return $this->scripts[$postion];
+        } else {
+            return [];
+        }
+    }
+
 }
