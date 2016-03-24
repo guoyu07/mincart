@@ -1,48 +1,92 @@
 <?php
-final class Front {
-	private $registry;
-	private $pre_action = array();
-	private $error;
 
-	public function __construct($registry) {
-		$this->registry = $registry;
-	}
-	
-	public function addPreAction(Action $pre_action) {
-		$this->pre_action[] = $pre_action;
-	}
-	
-	public function dispatch(Action $action, Action $error) {
-		$this->error = $error;
+/**
+ * 前端控制器
+ */
+final class Front
+{
+    /**
+     *
+     * @var Registry 
+     */
+    private $registry;
+    
+    /**
+     *
+     * @var array 
+     */
+    private $pre_action = array();
+    
+    /**
+     *
+     * @var Action 
+     */
+    private $error;
 
-		foreach ($this->pre_action as $pre_action) {
-			$result = $this->execute($pre_action);
+    /**
+     * 
+     * @param Registry $registry
+     */
+    public function __construct($registry)
+    {
+        $this->registry = $registry;
+    }
 
-			if ($result instanceof Action) {
-				$action = $result;
+    /**
+     * 
+     * @param Action $pre_action
+     * @return void
+     */
+    public function addPreAction(Action $pre_action)
+    {
+        $this->pre_action[] = $pre_action;
+    }
 
-				break;
-			}
-		}
+    /**
+     * 
+     * @param Action $action
+     * @param Action $error
+     * @return void
+     */
+    public function dispatch(Action $action, Action $error)
+    {
+        $this->error = $error;
 
-		while ($action instanceof Action) {
-			$action = $this->execute($action);
-		}
-	}
+        foreach ($this->pre_action as $pre_action) {
+            $result = $this->execute($pre_action);
 
-	private function execute(Action $action) {
-		$result = $action->execute($this->registry);
+            if ($result instanceof Action) {
+                $action = $result;
 
-		if ($result instanceof Action) {
-			return $result;
-		} 
-		
-		if ($result instanceof Exception) {
-			$action = $this->error;
-			
-			$this->error = null;
-			
-			return $action;
-		}
-	}
+                break;
+            }
+        }
+
+        while ($action instanceof Action) {
+            $action = $this->execute($action);
+        }
+    }
+
+    /**
+     * 执行指定动作
+     * @param Action $action
+     * @return \Action
+     */
+    private function execute(Action $action)
+    {
+        $result = $action->execute($this->registry);
+
+        if ($result instanceof Action) {
+            return $result;
+        }
+
+        if ($result instanceof Exception) {
+            $action = $this->error;
+
+            $this->error = null;
+
+            return $action;
+        }
+    }
+
 }

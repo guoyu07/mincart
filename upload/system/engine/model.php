@@ -1,16 +1,44 @@
 <?php
-abstract class Model {
-	protected $registry;
 
-	public function __construct($registry) {
-		$this->registry = $registry;
-	}
+/**
+ * 模型基类
+ */
+abstract class Model
+{
 
-	public function __get($key) {
-		return $this->registry->get($key);
-	}
+    /**
+     *
+     * @var Registry 
+     */
+    protected $registry;
 
-	public function __set($key, $value) {
-		$this->registry->set($key, $value);
-	}
+    /**
+     * 
+     * @param Registry $registry
+     */
+    public function __construct($registry)
+    {
+        $this->registry = $registry;
+    }
+
+    /**
+     * 
+     * @param string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->registry->get($key);
+    }
+
+    /**
+     * 
+     * @param string $key
+     * @param mixed $value
+     */
+    public function __set($key, $value)
+    {
+        $this->registry->set($key, $value);
+    }
+
 }
